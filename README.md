@@ -32,7 +32,7 @@ PRM, RRT, RRT-star, State Lattice, 他们各自的优缺点以及搜索算法的
 
 ### 搜索算法综述
 
-DFS, BFS, A*, focal search
+DFS, BFS, A*, beam search, focal search
 
 ## 优化算法综述
 
