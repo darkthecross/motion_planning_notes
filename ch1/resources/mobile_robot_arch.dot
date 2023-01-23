@@ -1,0 +1,19 @@
+digraph {
+    "感知、定位" [shape=box]
+    "运动预测" [shape=box]
+    "运动规划" [shape=box]
+    "运动控制" [shape=box]
+    "日志系统" [shape=box]
+    "通讯系统" [shape=box]
+
+    "感知、定位" -> "运动预测"
+    "运动预测" -> "运动规划"
+    "运动规划" -> "运动控制"
+
+    "感知、定位" -> "日志系统" [style=dashed]
+    "感知、定位" -> "通讯系统" [style=dashed]
+
+    "运动规划" -> "日志系统" [style=dashed]
+    "运动规划" -> "通讯系统" [style=dashed]
+    "通讯系统" -> "运动规划" [style=dashed]
+}
