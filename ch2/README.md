@@ -2,7 +2,7 @@
 
 本章节介绍一些运动规划算法中常遇到的数学和算法知识，包括运动学模型和简单的碰撞检测。
 
-## 移动机器人动力学模型
+## 移动机器人运动学模型
 
 这里先列举一些基础概念：
 
@@ -16,9 +16,35 @@
 
 ### 差分模型
 
-差分模型是一种相对简单的动力学模型，它适用于带差分轮的扫地机器人或其他室内机器人。差分轮指平行，等半径的一对轮子，可以分别控制两个轮子的角速度或角加速度，从而使得
+差分模型是一种相对简单的运动学模型，它适用于带差分轮的扫地机器人或其他室内机器人。差分轮指平行，等半径的一对轮子，可以分别控制两个轮子的角速度或角加速度，从而完成前进、倒退、转向等各种操作。
+
+<img src="resources/sweeping.jpg" width="300" height="300"/><img src="resources/balance_car.jpg" width="300" height="300"/>
+
+在此讨论的模型假定移动机器人有其他万向轮作为从动轮，起到支撑的作用，所以只需讨论二维空间的平面移动；而常见的平衡车模型还需要采用类似于倒立摆的方式处理平衡问题，在此暂不讨论。
+
+![differential_model](resources/differential_model.png)
+
+| 属性                      | 值                     |
+| ------------------------- | ---------------------- |
+| 状态空间(state space)     | x, y, $\phi$         |
+| 控制空间（control space） | $\omega_L$, $\omega_R$ |
+
+下面推导其运动学方程:
+
+$$ v = \frac{(\omega_L + \omega_R) r}{2} $$
+$$ \dot{x} = v \cos \phi $$
+$$ \dot{y} = v \sin \phi $$
+$$ \dot{\phi} = \frac{(\omega_R - \omega_L) r}{b} $$
+
+因此，
+
+$$ \begin{bmatrix} \dot{x} \\ \dot{y} \\ \dot{\phi} \end{bmatrix} = \begin{bmatrix} \frac{r \cos \phi}{2} & \frac{r \cos \phi}{2} \\ \frac{r \sin \phi}{2} & \frac{r \sin \phi}{2} \\ -\frac{r}{b} & \frac{r}{b} \end{bmatrix} \begin{bmatrix} \omega_L \\ \omega_R \end{bmatrix} $$
+
+Reference: [Wikipedia](https://en.wikipedia.org/wiki/Differential_wheeled_robot)
 
 ### 自行车模型
+
+自行车模型是一种最简化的前轮控制转向的车辆模型。
 
 ### Juke-Jerk模型
 
