@@ -24,10 +24,15 @@
 
 ![differential_model](resources/differential_model.png)
 
-| 属性                      | 值                     |
-| ------------------------- | ---------------------- |
-| 状态空间(state space)     | x, y, $\phi$         |
-| 控制空间（control space） | $\omega_L$, $\omega_R$ |
+
+其状态空间为：
+
+* $x, y$：机器人中心点的二维坐标。注意这里的中心点一般指两个轮子连线的中心，如果要采用其他参考点表达机器人的位置的话，可能需要做些变换。
+* $\phi$：机器人朝向的角度。
+
+其控制空间为：
+
+* $\omega_L, \omega_R$：左右轮转动的角速度。
 
 下面推导其运动学方程:
 
@@ -36,7 +41,7 @@ $$ \dot{x} = v \cos \phi $$
 $$ \dot{y} = v \sin \phi $$
 $$ \dot{\phi} = \frac{(\omega_R - \omega_L) r}{b} $$
 
-因此，
+因此差分模型的运动学方程为：
 
 $$ \begin{bmatrix} \dot{x} \\ \dot{y} \\ \dot{\phi} \end{bmatrix} = \begin{bmatrix} \frac{r \cos \phi}{2} & \frac{r \cos \phi}{2} \\ \frac{r \sin \phi}{2} & \frac{r \sin \phi}{2} \\ -\frac{r}{b} & \frac{r}{b} \end{bmatrix} \begin{bmatrix} \omega_L \\ \omega_R \end{bmatrix} $$
 
@@ -44,9 +49,26 @@ Reference: [Wikipedia](https://en.wikipedia.org/wiki/Differential_wheeled_robot)
 
 ### 自行车模型
 
-自行车模型是一种最简化的前轮控制转向的车辆模型。
+自行车模型是一种最简化的前轮控制转向的车辆模型。它是适用于常见的，前轮控制转向的四轮车辆的一种简化的模型，将四轮车辆近似成前轮转向的自行车。
 
-### Juke-Jerk模型
+<img src="resources/BicycleModel.svg" width="300" height="300" style="background: white"/><img src="resources/BicycleModelGeometry.svg" width="300" height="300" style="background: white"/>
+
+其状态空间为：
+
+* $x, y$：机器人中心点的二维坐标。
+* $\theta$：机器人朝向的角度。
+* $v$：机器人的线速度。
+
+其控制空间为：
+
+* $a$：机器人的线加速度。
+* $\delta$：前轮转向角。
+
+通过瞬时旋转中心(instant center of rotation)作为辅助，易推导其运动学方程为：
+
+$$ \begin{bmatrix} \dot{x} \\ \dot{y} \\ \dot{\theta} \\ \dot{v} \end{bmatrix} = \begin{bmatrix} v \cos \theta \\ v \sin \theta \\ v/L \tan \delta \\ a \end{bmatrix} $$
+
+Reference: [KinematicsBycicleModel](https://thomasfermi.github.io/Algorithms-for-Automated-Driving/Control/BicycleModel.html#)
 
 ## 计算几何学
 
