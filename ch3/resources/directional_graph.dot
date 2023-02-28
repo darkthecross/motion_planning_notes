@@ -1,0 +1,18 @@
+digraph {
+    A
+    B
+    C
+    D
+    E
+
+    A->B
+    A->C
+    A->E
+
+    B->D
+    B->E
+
+    C->D
+
+    D->E
+}
