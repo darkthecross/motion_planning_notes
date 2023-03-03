@@ -5,14 +5,12 @@ digraph {
     D
     E
 
-    A->B
     A->C
-    A->E
+    A->D
 
-    B->D
     B->E
 
     C->D
 
-    D->E
+    D->B
 }

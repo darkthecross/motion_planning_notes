@@ -1,0 +1,16 @@
+graph {
+    "西直门"
+    "知春路"
+    "海淀黄庄"
+    "五道口"
+    "鼓楼大街"
+    "北土城"
+
+    "西直门" -- "知春路" [label="十三号线" fontsize="10pt"]
+    "知春路" -- "海淀黄庄" [label="十号线" fontsize="10pt"]
+    "海淀黄庄" -- "西直门" [label="四号线" fontsize="10pt"]
+    "知春路" -- "五道口" [label="十三号线" fontsize="10pt"]
+    "西直门" -- "鼓楼大街" [label="二号线" fontsize="10pt"]
+    "北土城" -- "鼓楼大街" [label="八号线" fontsize="10pt"]
+    "北土城" -- "知春路" [label="十号线" fontsize="10pt"]
+}
