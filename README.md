@@ -26,13 +26,13 @@
 
 通过一些有趣的案例向读者展示图搜索算法在实践中的用途。
 
-### 采样算法综述
-
-PRM, RRT, RRT-star, State Lattice, 他们各自的优缺点以及搜索算法的限制。
-
 ### 搜索算法综述
 
 DFS, BFS, A*, beam search, focal search
+
+### 采样算法综述
+
+PRM, RRT, RRT-star, State Lattice, 他们各自的优缺点以及搜索算法的限制。
 
 ## 优化算法综述
 
