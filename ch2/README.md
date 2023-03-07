@@ -164,6 +164,7 @@ Reference: [Wikipedia](https://en.wikipedia.org/wiki/Point_in_polygon#:~:text=On
 * SIMD or Auto Vectorization: 现代CPU、现代高级编程语言在合理的优化等级下，会自动使用AVX或类似的指令集加速可以并行的计算。如果自动矢量化效果不理想，也可以自己手写SIMD等CPU并行代码进行加速。
 * Multi-threading：某些情况下多线程可以算得更快。
 * GPU: 对于规模更大、更复杂的场景，特别是三维空间的碰撞检测，可以考虑使用GPU进行计算。
+* 专用计算芯片。对于非常成熟的运用场景，专门设计的计算芯片可能达到比GPU更快的效果。
 
 当然，一切计算的效率以实测为准。笔者就曾遇到过信誓旦旦写了BVH算法以为会更快，结果被Auto Vectorization吊打的尴尬情况。
 
