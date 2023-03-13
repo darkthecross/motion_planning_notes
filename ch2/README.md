@@ -111,7 +111,7 @@ Reference: [KinematicsBycicleModel](https://thomasfermi.github.io/Algorithms-for
 
 #### 线段与线段
 
-对于线段$(x_0, y_0, x_1, y_1)$ 与 $(x'_0, y'_0, x'_1, y'_1)$而言，我们可以找到他们的参数方程：
+对于线段 $(x_0, y_0, x_1, y_1)$ 与 $(x'_0, y'_0, x'_1, y'_1)$ 而言，我们可以找到他们的参数方程：
 
 $$
 \begin{cases}
