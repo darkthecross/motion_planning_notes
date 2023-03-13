@@ -105,7 +105,7 @@ h(x) = f(x) + g(x)
 
 由此，A* 其实有许多不同的变种，包括 Weighted-A*，即不使用$g(x)$作为到终点的距离的估计而使用 $w g(x)$ ，其中 $w$ 为一个通常大于1的常数，从而heuristic函数变为 $f(x) = h(x) + wg(x)$ 。我们可以理解，当 $w=1$ 时，Weighted-A* 即是正常的A* 算法，当 $w \rightarrow \infty$ 时，Weighted-A* 将退化成Greedy Search，而当 $w$ 在 $(1, \infty)$ 之间变化时，Weighted-A* 也会逐渐变得更贪婪。
 
-Focal Search把Beam Search的思想应用到A* 中，同时也结合了Weighted-A* 的思想：当生成Open List的时候，只根据Heuristic函数的值选择其中较优的一部分的节点： $f(x')<wf_{min}$ ，而从Open List选择下一个节点进行探索时，使用Weighted Heuristic函数做排序。可以证明Focal Search是一种Bounded-suboptimal Search，即其找到的解可以保证其代价不高于最优解的代价的若干倍。有兴趣的读者建议进一步阅读参考文献。
+Focal Search把Beam Search的思想应用到A* 中，同时也结合了Weighted-A* 的思想：当生成Open List的时候，只根据Heuristic函数的值选择其中较优的一部分的节点： $f(x') < wf_{min}$ ,而从Open List选择下一个节点进行探索时，使用Weighted Heuristic函数做排序。可以证明Focal Search是一种Bounded-suboptimal Search，即其找到的解可以保证其代价不高于最优解的代价的若干倍。有兴趣的读者建议进一步阅读参考文献。
 
 Reference: [paper](https://www.ijcai.org/proceedings/2018/0199.pdf)
 
