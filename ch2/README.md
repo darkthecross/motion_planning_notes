@@ -58,7 +58,7 @@ Reference: [Wikipedia](https://en.wikipedia.org/wiki/Differential_wheeled_robot)
 
 自行车模型是一种最简化的前轮控制转向的车辆模型。它是适用于常见的，前轮控制转向的四轮车辆的一种简化的模型，将四轮车辆近似成前轮转向的自行车。
 
-<img src="resources/BicycleModel.svg" width="300" height="300" style="background: white"/><img src="resources/BicycleModelGeometry.svg" width="300" height="300" style="background: white"/>
+<img src="resources/bicycle_1.png" width="300" height="300"/><img src="resources/icr.png" width="300" height="300"/>
 
 其状态空间为：
 
@@ -73,7 +73,9 @@ Reference: [Wikipedia](https://en.wikipedia.org/wiki/Differential_wheeled_robot)
 
 通过瞬时旋转中心(instant center of rotation)作为辅助，易推导其运动学方程为：
 
-$$ \begin{bmatrix} \dot{x} \\ \dot{y} \\ \dot{\theta} \\ \dot{v} \end{bmatrix} = \begin{bmatrix} v \cos \theta \\ v \sin \theta \\ v/L \tan \delta \\ a \end{bmatrix} $$
+```math
+\begin{bmatrix} \dot{x} \\ \dot{y} \\ \dot{\theta} \\ \dot{v} \end{bmatrix} = \begin{bmatrix} v \cos \theta \\ v \sin \theta \\ v/L \tan \delta \\ a \end{bmatrix}
+```
 
 Reference: [KinematicsBycicleModel](https://thomasfermi.github.io/Algorithms-for-Automated-Driving/Control/BicycleModel.html#)
 
@@ -127,7 +129,7 @@ y = y_0' + (y_1' - y_0')t'
 \end{cases}
 $$
 
-联立求解可得$t, t'$的值（或无解/无穷多解，意味着两线段平行或两线段在同一直线上），判断其是否在$0.0-1.0$之间，可确定两线段所在直线交点是否在两线段内，从而判断其相交情况。
+联立求解可得 $t, t'$ 的值（或无解/无穷多解，意味着两线段平行或两线段在同一直线上），判断其是否在 $0.0-1.0$ 之间，可确定两线段所在直线交点是否在两线段内，从而判断其相交情况。
 
 #### 点与任意多边形
 
