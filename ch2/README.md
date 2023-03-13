@@ -38,14 +38,17 @@ TODO(fanmx): 简单介绍运动学方程的使用方法，考虑介绍欧拉积�
 
 下面推导其运动学方程:
 
-$$ v = \frac{(\omega_L + \omega_R) r}{2} $$
-$$ \dot{x} = v \cos \phi $$
-$$ \dot{y} = v \sin \phi $$
-$$ \dot{\phi} = \frac{(\omega_R - \omega_L) r}{b} $$
+$$v = \frac{(\omega_L + \omega_R) r}{2}$$
+
+$$\dot{x} = v \cos \phi$$
+
+$$\dot{y} = v \sin \phi$$
+
+$$\dot{\phi} = \frac{(\omega_R - \omega_L) r}{b}$$
 
 因此差分模型的运动学方程为：
 
-$$ \begin{bmatrix} \dot{x} \\ \dot{y} \\ \dot{\phi} \end{bmatrix} = \begin{bmatrix} \frac{r \cos \phi}{2} & \frac{r \cos \phi}{2} \\ \frac{r \sin \phi}{2} & \frac{r \sin \phi}{2} \\ -\frac{r}{b} & \frac{r}{b} \end{bmatrix} \begin{bmatrix} \omega_L \\ \omega_R \end{bmatrix} $$
+$$\begin{bmatrix} \dot{x} \\ \dot{y} \\ \dot{\phi} \end{bmatrix} = \begin{bmatrix} \frac{r \cos \phi}{2} & \frac{r \cos \phi}{2} \\ \frac{r \sin \phi}{2} & \frac{r \sin \phi}{2} \\ -\frac{r}{b} & \frac{r}{b} \end{bmatrix} \begin{bmatrix} \omega_L \\ \omega_R \end{bmatrix}$$
 
 Reference: [Wikipedia](https://en.wikipedia.org/wiki/Differential_wheeled_robot)
 
