@@ -48,7 +48,9 @@ $$\dot{\phi} = \frac{(\omega_R - \omega_L) r}{b}$$
 
 因此差分模型的运动学方程为：
 
-$$\begin{bmatrix}\dot{x}\\ \dot{y}\\ \dot{\phi}\end{bmatrix}=\begin{bmatrix}\frac{r \cos \phi}{2}&\frac{r \cos \phi}{2}\\ \frac{r \sin \phi}{2}&\frac{r \sin \phi}{2}\\ -\frac{r}{b}&\frac{r}{b}\end{bmatrix}\begin{bmatrix}\omega_L\\ \omega_R\end{bmatrix}$$
+```math
+\begin{bmatrix}\dot{x}\\ \dot{y}\\ \dot{\phi}\end{bmatrix}=\begin{bmatrix}\frac{r \cos \phi}{2}&\frac{r \cos \phi}{2}\\ \frac{r \sin \phi}{2}&\frac{r \sin \phi}{2}\\ -\frac{r}{b}&\frac{r}{b}\end{bmatrix}\begin{bmatrix}\omega_L\\ \omega_R\end{bmatrix}
+```
 
 Reference: [Wikipedia](https://en.wikipedia.org/wiki/Differential_wheeled_robot)
 
