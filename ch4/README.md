@@ -238,7 +238,7 @@ $$
 其中
 
 ```math
-P_1 = Q + K_1^T R K_1 + (A + B K_1)^T  P_0 (A + B K_1) \\
+P_1 = Q + K_1^T R K_1 + (A + B K_1)^T  P_0 (A + B K_1) \
 
 K_1 = -(R + B^T P_0 B)^{-1} B^T P_0 A
 ```
@@ -259,7 +259,7 @@ $$
 取其运动学方程的泰勒展开进行一阶近似得到线性的运动学方程：
 
 ```math
-x_{t+1} \approx f(x_t*, u_t*) + \frac {\partial f(x_t*, u_t*) } {\partial x} (x_t - x_t*) + \frac {\partial f(x_t*, u_t*) } {\partial u} (u_t - u_t*) \\
+x_{t+1} \approx f(x_t*, u_t*) + \frac {\partial f(x_t*, u_t*) } {\partial x} (x_t - x_t*) + \frac {\partial f(x_t*, u_t*) } {\partial u} (u_t - u_t*) \
 
 x_{t+1} - x_{t+1}* \approx A_t (x - x_t*) + B_t (u - u_t*)
 ```
