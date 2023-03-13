@@ -85,7 +85,7 @@ A* 在执行`open_list.get_one()`时，会考虑列表中每个节点的启发�
 
 ### Beam Search
 
-Beam Search是BFS的一个变种。区别于BFS，Beam Search对于当前Open List中的节点根据某种heuristic进行排序，并且根据一个给定的常数$\beta$，只探索其中比较优秀的一部分节点去做下一步的搜索。
+Beam Search是BFS的一个变种。区别于BFS，Beam Search对于当前Open List中的节点根据某种heuristic进行排序，并且根据一个给定的常数 $\beta$ ，只探索其中比较优秀的一部分节点去做下一步的搜索。
 
 Beam Search是一种贪婪算法，不能保证能找到最优解，但是在多数情况下可以很好地节省内存空间，提升运行速度。
 
@@ -95,15 +95,15 @@ Reference: [Wikipedia](https://en.wikipedia.org/wiki/Beam_search)
 
 这是一种相对比较先进的搜索算法。
 
-要理解Focal Search，我们先来看A* 的实现。A* 是一种Best First的搜索算法，其常用从起点到当前节点的路径$f(x)$和当前节点到终点的距离$g(x)$作为heuristic:
+要理解Focal Search，我们先来看A* 的实现。A* 是一种Best First的搜索算法，其常用从起点到当前节点的路径 $f(x)$ 和当前节点到终点的距离 $g(x)$ 作为heuristic:
 
 ```
 h(x) = f(x) + g(x)
 ```
 
-当$g(x)$是凸函数的时候，这个heuristic可以保证搜索找到的路径是最优的。而$g(x)$常常并不是一个凸函数，例如我们的搜索空间如果不只是二维空间的$(x,y)$而是$(x, y, \theta)$，那么简单的欧式距离就不再有这样的保障，虽然这个heuristic仍然常可以给出不错的结果。
+当 $g(x)$ 是凸函数的时候，这个heuristic可以保证搜索找到的路径是最优的。而 $g(x)$ 常常并不是一个凸函数，例如我们的搜索空间如果不只是二维空间的 $(x,y)$ 而是 $(x, y, \theta)$ ，那么简单的欧式距离就不再有这样的保障，虽然这个heuristic仍然常可以给出不错的结果。
 
-由此，A* 其实有许多不同的变种，包括 Weighted-A*，即不使用$g(x)$作为到终点的距离的估计而使用 $w g(x)$ ，其中 $w$ 为一个通常大于1的常数，从而heuristic函数变为 $f(x) = h(x) + wg(x)$ 。我们可以理解，当 $w=1$ 时，Weighted-A* 即是正常的A* 算法，当 $w \rightarrow \infty$ 时，Weighted-A* 将退化成Greedy Search，而当 $w$ 在 $(1, \infty)$ 之间变化时，Weighted-A* 也会逐渐变得更贪婪。
+由此，A* 其实有许多不同的变种，包括 Weighted-A*，即不使用 $g(x)$ 作为到终点的距离的估计而使用 $w g(x)$ ，其中 $w$ 为一个通常大于1的常数，从而heuristic函数变为 $f(x) = h(x) + wg(x)$ 。我们可以理解，当 $w=1$ 时，Weighted-A* 即是正常的A* 算法，当 $w \rightarrow \infty$ 时，Weighted-A* 将退化成Greedy Search，而当 $w$ 在 $(1, \infty)$ 之间变化时，Weighted-A* 也会逐渐变得更贪婪。
 
 Focal Search把Beam Search的思想应用到A* 中，同时也结合了Weighted-A* 的思想：当生成Open List的时候，只根据Heuristic函数的值选择其中较优的一部分的节点： $f(x') < wf_{min}$ ,而从Open List选择下一个节点进行探索时，使用Weighted Heuristic函数做排序。可以证明Focal Search是一种Bounded-suboptimal Search，即其找到的解可以保证其代价不高于最优解的代价的若干倍。有兴趣的读者建议进一步阅读参考文献。
 
