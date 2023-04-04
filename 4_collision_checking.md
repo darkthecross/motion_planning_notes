@@ -52,11 +52,11 @@ Reference: [Wikipedia](https://en.wikipedia.org/wiki/Point_in_polygon#:~:text=On
 
 我们先取一个矩形某条边的中垂线，并计算两个矩形在这条线上的投影：
 
-<img src="resources/obb_1.jpg" width="300"/>
+<img src="resources_4/obb_1.jpg" width="300"/>
 
 再取另一条中垂线并计算投影：
 
-<img src="resources/obb_2.jpg" width="300"/>
+<img src="resources_4/obb_2.jpg" width="300"/>
 
 这里我们发现两个投影并没有重合部分，说明两个矩形并不相交。
 
