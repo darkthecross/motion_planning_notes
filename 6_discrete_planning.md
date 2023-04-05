@@ -8,11 +8,11 @@
 
 如下所示是一个抽象的有向图：
 
-![directional_graph](resources/directional_graph.svg)
+![directional_graph](resources_6/directional_graph.svg)
 
 图可以用来表达非常丰富的信息，例如交通路线图（不要太在意各个节点间的位置关系，这里我们更看重它们的联通关系）：
 
-![subway](resources/subway.svg)
+![subway](resources_6/subway.svg)
 
 ## 为什么搜索是万能的
 
@@ -20,15 +20,19 @@
 
 首先是地图导航。非常自然地，我们可以把各个地点，包括起点和终点，视为图的顶点，而各条公路就是连接这些顶点的边。地图导航本质上就是在这个图中搜索一个从起点到终点的路线，使得总路程或总时间最短：
 
-<img src="resources/direction.png" width="600"/>
+<img src="resources_6/direction.png" width="600"/>
 
 我们可以将围棋棋盘上的状态视为一个个节点，每一步落子视为连接这些节点的边。一局围棋比赛中，自然是从空棋盘开始，直到终盘有一方有一些优势，从而围棋的AI可以视为从当前棋局状态开始，寻找对己方更有利的棋局的搜索算法： 
 
-<img src="resources/go.png" width="600"/>
+<img src="resources_6/go.png" width="600"/>
 
 当然实际工程中，围棋状态空间极大，使用传统的搜索算法几乎不可能，“寻找对己方更有利棋局”也是一个不严谨的表达，具体的数学模型和算法设计可以参见[AlphaGo](https://storage.googleapis.com/deepmind-media/alphago/AlphaGoNaturePaper.pdf)，上图也截取自该论文。
 
 因此，图和搜索是非常强大的数学模型，可以解决很多种类的实际问题。
+
+## 离散规划的一般形式
+
+地图导航和围棋并不是离散规划的很好的例子，他们是更贴近于生活的例子，但是又各自有他们的复杂性：导航系统可能要考虑堵车、修路等等实际问题，围棋中双方棋手交替落子，（通常认为）没有必胜策略。
 
 ## 基础搜索算法和先进搜索算法
 
@@ -58,7 +62,7 @@ return "No path found"
 
 以同一个有向图，以A为起点，E为终点为例：
 
-![directional_graph](resources/directional_graph.svg)
+![directional_graph](resources_6/directional_graph.svg)
 
 以下为广度优先算法的执行步骤：
 
