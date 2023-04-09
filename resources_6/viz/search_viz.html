@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Canvas Example</title>
+</head>
+
+<body>
+    <canvas id="myCanvas"></canvas>
+    <br />
+    <button id="step">step</button>
+
+    <select id="alg">
+        <option value="bfs">bfs</option>
+        <option value="dfs">dfs</option>
+        <option value="a*">a*</option>
+    </select>
+
+    <script>
+        var alg = "bfs";
+
+        var grid_map = [];
+
+        for (var x = 0; x < 15; x++) {
+            var mp_row = [];
+            for (var y = 0; y < 15; y++) {
+                mp_row.push(0);
+            }
+            grid_map.push(mp_row);
+        }
+        grid_map[5][5] = 1;
+        grid_map[10][12] = 2;
+
+        // Get the canvas element and 2D context
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+
+        // Set the canvas size
+        canvas.width = 750;
+        canvas.height = 750;
+
+        // Define the grid spacing and colors
+        var spacing = 50;
+
+        // Define a queue to store the nodes to be visited
+        var queue = [];
+
+        // Define a 2D array to keep track of the visited nodes
+        var visited = new Array(15);
+        for (var i = 0; i < visited.length; i++) {
+            visited[i] = new Array(15).fill(false);
+        }
+
+        // Define a function to check if a given row and column are within the grid
+        function isValid(row, col) {
+            return row >= 0 && row < 15 && col >= 0 && col < 15;
+        }
+
+        // Add the starting point to the queue
+        queue.push({ row: 5, col: 5, h: 0.0 });
+
+        function calc_h(r, c) {
+            return Math.sqrt((r - 5.0) * (r - 5.0) + (c - 5.0) * (c - 5.0)) + Math.sqrt((r - 10.0) * (r - 10.0) + (c - 12.0) * (c - 12.0));
+        }
+
+        function step_search() {
+            if (queue.length > 0) {
+                var node;
+                if (alg === "bfs" || alg == "a*") {
+                    // Get the next node to visit from the queue
+                    var node = queue.shift();
+                } else if (alg == "dfs") {
+                    var node = queue.pop();
+                }
+
+                // Check if we have reached the end point
+                if (node.row === 10 && node.col === 12) {
+                    console.log("Reached the end point!");
+                }
+
+                // Check if this node has already been visited
+                if (visited[node.row][node.col]) {
+                    return;
+                }
+
+                // Mark this node as visited
+                visited[node.row][node.col] = true;
+
+                // Get the neighbors of this node
+                var neighbors = [
+                    { row: node.row - 1, col: node.col, h: calc_h(node.row - 1, node.col) },
+                    { row: node.row + 1, col: node.col, h: calc_h(node.row + 1, node.col) },
+                    { row: node.row, col: node.col - 1, h: calc_h(node.row, node.col - 1) },
+                    { row: node.row, col: node.col + 1, h: calc_h(node.row, node.col + 1) }
+                ];
+
+                // Loop through the neighbors
+                for (var i = 0; i < neighbors.length; i++) {
+                    var neighbor = neighbors[i];
+
+                    if (isValid(neighbor.row, neighbor.col) && !visited[neighbor.row][neighbor.col]) {
+
+                        // Add this neighbor to the queue
+                        queue.push(neighbor);
+                        if (alg === "a*") {
+                            queue.sort(function (a, b) { return a.h - b.h; });
+                        }
+                    }
+                }
+            }
+        }
+
+        function reset() {
+            grid_map = [];
+
+            for (var x = 0; x < 15; x++) {
+                var mp_row = [];
+                for (var y = 0; y < 15; y++) {
+                    mp_row.push(0);
+                }
+                grid_map.push(mp_row);
+            }
+            grid_map[5][5] = 1;
+            grid_map[10][12] = 2;
+
+            queue = [];
+
+            visited = new Array(15);
+            for (var i = 0; i < visited.length; i++) {
+                visited[i] = new Array(15).fill(false);
+            }
+
+            // Add the starting point to the queue
+            queue.push({ row: 5, col: 5, h: 0.0 });
+        }
+
+        function draw() {
+            // Loop through each grid position and draw a rectangle with the appropriate color
+            for (var x = 0; x < 15; x++) {
+                for (var y = 0; y < 15; y++) {
+                    var color = "#dddddd";
+                    // Draw open list 
+                    for (i in queue) {
+                        var q = queue[i];
+                        if (q.row === x && q.col === y) {
+                            color = "#999999";
+                            break;
+                        }
+                    }
+                    // Draw visited
+                    if (visited[x][y]) {
+                        color = "#666666";
+                    }
+                    // Draw starting point.
+                    if (grid_map[x][y] === 1) {
+                        color = "#222222";
+                    }
+                    if (grid_map[x][y] === 2) {
+                        color = "#ffffff";
+                    }
+                    ctx.fillStyle = color;
+                    ctx.fillRect(x * spacing, y * spacing, spacing, spacing);
+                }
+            }
+        }
+
+        var button = document.getElementById("step");
+        button.addEventListener("click", function () {
+            step_search();
+            draw();
+        });
+
+        var alg_sel = document.getElementById("alg");
+        alg_sel.addEventListener("change", function () {
+            alg = alg_sel.value;
+            reset();
+            draw();
+        });
+
+    </script>
+</body>
+
+</html>
