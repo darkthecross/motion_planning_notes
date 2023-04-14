@@ -128,7 +128,7 @@ BFS:
 
 <img src="resources_6/bfs_1.png" width="300" height="300"/><img src="resources_6/bfs_2.png" width="300" height="300"/>
 
-可以看到对于BFS，我们将优先访问距离起点更近的点。
+可以看到对于BFS，我们将优先访问距离起点更近的点。节点到起始点的“距离”是影响访问顺序的唯一因素，对节点的访问并没有方向性。
 
 DFS:
 
@@ -140,13 +140,17 @@ DFS:
 
 <img src="resources_6/astar_1.png" width="300" height="300"/><img src="resources_6/astar_2.png" width="300" height="300"/>
 
-可以看到A*算法非常高效地优先考虑“最优”的节点。
+可以看到A*算法非常高效地优先考虑“最优”的节点，在选择接下来访问的节点的过程中有较明显的方向性。
 
 ### Beam Search
 
-Beam Search是BFS的一个变种。区别于BFS，Beam Search对于当前Open List中的节点根据某种heuristic进行排序，并且根据一个给定的常数 $\beta$ ，只探索其中比较优秀的一部分节点去做下一步的搜索。
+首先介绍best first search。这种搜索方法会对Open List中的节点指定一个值（heuristic），在选取下一个访问的节点时由这个值决定。不同的值函数（heuristic function）的选择会对搜索的顺序产生影响。
 
-Beam Search是一种贪婪算法，不能保证能找到最优解，但是在多数情况下可以很好地节省内存空间，提升运行速度。
+例如，如果我们选择节点到起始点的$L1$ distance作为值函数，此时搜索算法与BFS等同；如果我们选择节点到起始点和目标点的直线距离之和作为值函数，则变成了A*算法。
+
+Beam Search是best first search的一个变种。区别于一般的best first search，Beam Search根据一个给定的常数 $\beta$ ，只探索其中比较优秀的一部分节点去做下一步的搜索。
+
+Beam Search是一种贪婪算法，不能保证能找到最优解，但是在多数情况下可以很好地节省内存空间，提升运行效率。
 
 Reference: [Wikipedia](https://en.wikipedia.org/wiki/Beam_search)
 
