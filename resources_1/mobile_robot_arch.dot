@@ -1,19 +1,34 @@
 digraph {
     "感知、定位" [shape=box]
-    "运动预测" [shape=box]
-    "运动规划" [shape=box]
-    "运动控制" [shape=box]
+
     "日志系统" [shape=box]
     "通讯系统" [shape=box]
 
-    "感知、定位" -> "运动预测"
-    "运动预测" -> "运动规划"
-    "运动规划" -> "运动控制"
+
+    subgraph "运动规划" {
+        rank=same
+        style=filled
+		bgcolor=lightgrey
+        label="运动规划"
+
+        "运动预测" [shape=box]
+        "运动控制" [shape=box]
+        "搜索" [shape=box]
+        "轨迹优化" [shape=box]
+
+        "感知、定位" -> "运动预测"
+        "运动预测" -> "搜索"
+        "搜索" -> "轨迹优化"
+        "轨迹优化" -> "运动控制"
+    }
 
     "感知、定位" -> "日志系统" [style=dashed]
-    "感知、定位" -> "通讯系统" [style=dashed]
 
-    "运动规划" -> "日志系统" [style=dashed]
-    "运动规划" -> "通讯系统" [style=dashed]
-    "通讯系统" -> "运动规划" [style=dashed]
+    "运动预测" -> "日志系统" [style=dashed]
+    "搜索" -> "日志系统" [style=dashed]
+    "轨迹优化" -> "日志系统" [style=dashed]
+    "运动控制" -> "日志系统" [style=dashed]
+
+    "日志系统" -> "通讯系统"
+    "通讯系统" -> "日志系统"
 }
