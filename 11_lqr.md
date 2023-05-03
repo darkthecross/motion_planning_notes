@@ -1,4 +1,4 @@
-## 11_LQR和其拓展
+# 11_LQR和其拓展
 
 当我们采用离散的状态和控制来描述机器人的运动轨迹的时候，机器人运动规划问题相比于更一般的规划问题有一些很好的特点：轨迹被表示成一个个状态点，并符合马尔可夫过程的特点，即下一状态只与当前状态和当前控制有关，而与更早的状态或控制无关。用优化的一般形式来表达的话，我们其实可以得到一组等式约束：
 $$
@@ -53,8 +53,8 @@ $$
 我们再做一些假设（或者说近似），控制或状态是自由没有界限地，代价函数为二次型，运动学模型为线性（这些条件看起来限制很多，但是实际上依然在数学建模上保留了很大的自由度，在实践中非常好用）。这样一个运动规划问题就可以描述为
 
 $$
-\text{min} \sum c = \sum x_k^T Q x_k + u_k^T R u^k\\
-\text{s.t. } x_{k+1} = Ax_k + Bu_k
+\text{min} \sum_{t=0}^T c = \sum_{t=0}^T x_t^T Q x_t + u_t^T R u^t\\
+\text{s.t. } x_{t+1} = Ax_t + Bu_t
 $$
 
 其中 $Q \succ 0, R \succ 0$。这两个矩阵是正定矩阵意味着代价函数是标准的二次型。
@@ -115,32 +115,112 @@ $$
 
 这又是一个二次型，从而我们可以从后向前一直迭代到$t=0$，由给定的初始状态 $x_0$ 求解出最优的控制 $u_0$ ，代入运动学方程进而得到 $x_1$ ， 再求解出最优的 $u_1$，迭代向后得知每一个时刻的最佳控制 $u_t$ 。
 
-## LQR 的变种
+## LQR 的一些变种
 
-TODO(fanmx): different Q/R , etc.
+前面我们花了一些篇幅来具体推导LQR。LQR本身也很有用，但是它的一些变种让它更加强大而实用。
+
+### 非线性系统
+
+LQR的一个假设是线性系统：
+
+$$
+x_{t+1} = Ax_t + Bu_t
+$$
+
+那么对于更一般的，非线性的情况：
+
+$$
+x_{t+1} = f(x_t, u_t)
+$$
+
+我们能否使用LQR呢？
+
+如果这一系统存在某个不动点 $(x^*, u^*)$ 使得 $x^* = f(x^*, u^*)$，那么我们可以在不动点附近对动力学方程进行泰勒展开：
+
+$$
+\begin{split}
+x_{t+1} &\approx f(x^*, u^*) + \frac{\partial f}{\partial x}(x^*, u^*) (x_t - x^*) + \frac{\partial f}{\partial u}(x^*, u^*) (u_t - u^*) \\
+x_{t+1} - x^* &= \frac{\partial f}{\partial x}(x^*, u^*) (x_t - x^*) + \frac{\partial f}{\partial u} (x^*, u^*) (u_t - u^*)
+\end{split}
+$$
+
+我们做一些代换： $z_t = x_t - x^*, v_t = u_t - u^*, A = \frac{\partial f}{\partial x}(x^*, u^*), B = \frac{\partial f(x^*, u^*)}{\partial u}(x^*, u^*) $， 便得到了LQR的标准形式：
+
+$$
+z_{t+1} = A z_t + B v_t
+$$
+
+求解这一LQR问题，并且通过 $(x^*, u^*)$ 还原，便可以使用LQR的方法求解非线性系统。
+
+### 时变系统
+
+这里我们直接使用了《信号与系统》这门课程中的名词。所谓的时变系统，即代价函数和动力学方程都与时间有关：
+
+$$
+c(x_t, u_t) = x_t^T Q_t x_t + u_t^T R_t u_t \\
+x_{t+1} = A_{t} x_t + B_t u_t
+$$
+
+这在实际的机器人运动规划问题中也很常见，例如当我们只关心运动的末状态时，可以只针对末状态设计一些代价函数而不把这一代价函数同时加在之前的状态上。
+
+通过与标准的LQR相似的推导，可知时变系统与标准LQR求解过程中唯一的区别是，我们迭代计算$P_t, K_t$时要使用每个时刻不同的 $Q_t, R_t, A_t$ 和 $B_t$。
+
+### 轨迹跟随
+
+我们再来看一个问题：假设已经有了一条目标轨迹 $(x_0^*, u_0^*, x_1^*, u_1^*, \dots, x_{T-1}^*, u_{T-1}^*, x_T^*)$ 满足 $x_{t+1}^* = f(x_t^*, u_t^*)$，我们从另一个初始状态 $x_0$ 出发，该使用怎样的控制序列可以尽量跟随目标轨迹呢？
+
+这个问题用数学符号来表达则是：
+
+$$
+\min_{u_0, u_1, \dots, u_{T-1}} \sum_{t=0}^T (x_t - x_t^*)^T Q (x_t - x_t^*) + (u_t - u_t^*)^T R (u_t - u_t^*) \\
+\text{s.t.} x_{t+1} = f(x_t, u_t)
+$$
+
+这里的 $Q, R$ 可以是简单的对角阵，代价函数是状态与控制误差的二次型。
+
+我们可以先将非线性的运动学方程线性化：
+
+$$
+x_{t+1} - x_{t+1}^* = \frac{\partial f}{\partial x}(x_t^*, u_t^*) (x_t - x_t^*) + \frac{\partial f}{\partial u}(x_t^*, u_t^*) (u_t - u_t^*)
+$$
+
+再做代换： $z_t = x_t - x_t^*, v_t = u_t - u_t^*, A_t = \frac{\partial f}{\partial x}(x_t^*, u_t^*), B = \frac{\partial f}{\partial u}(x_t^*, u_t^*) $，这样我们得到了一个时变的LQR问题。
 
 ### iLQR
 
-iterative LQR是用于解决非线性动力学模型、非二次型代价函数的，比较一般的运动规划问题的好方法。
-
-我们对于一条初始轨迹：
+那么对于更加一般的形式：
 
 $$
-(x_0*, u_0*, x_1*, u_1*, \dots, x_T*, u_T*)
+\min_u \sum g(x_t, u_t) \\
+\text{s.t. } x_{t+1} = f(x_t, u_t)
 $$
 
-取其运动学方程的泰勒展开进行一阶近似得到线性的运动学方程：
+我们该怎样处理呢？
+
+我们同样需要一条初始轨迹： $(x_0^*, u_0^*, x_1^*, u_1^*, \dots, x_{T-1}^*, u_{T-1}^*, x_T^*)$ 满足 $x_{t+1}^* = f(x_t^*, u_t^*)$ 。它可以完全是由随机的控制序列生成的，也可以是通过搜索算法得到的；但是实际应用中这条轨迹应当与优化的目标尽量接近，这样我们可以用更快的求解速度得到更优的解。
+
+对于非线性时变系统的处理方法前面已经讲过：
 
 $$
-x_{t+1} \approx f(x_t*, u_t*) + \frac {\partial f(x_t*, u_t*) } {\partial x} (x_t - x_t*) + \frac {\partial f(x_t*, u_t*) } {\partial u} (u_t - u_t*) 
+x_{t+1} - x_{t+1}^* = \frac{\partial f}{\partial x}(x_t^*, u_t^*) (x_t - x_t^*) + \frac{\partial f}{\partial u}(x_t^*, u_t^*) (u_t - u_t^*)
 $$
 
+对于非二次型的代价函数 $g(x_t, u_t)$ ，在 $(x_t^*, u_t^*)$ 附近使用泰勒展开找其二阶近似：
+
 $$
-x_{t+1} - x_{t+1}* \approx A_t (x - x_t*) + B_t (u - u_t*)
+g(x_t, u_t) \approx g(x_t^*, u_t^*) + \frac{\partial g}{\partial x} (x_t^*, u_t^*) (x_t - x_t^*) + \frac{\partial g}{\partial u} (x_t^*, u_t^*) (u_t - u_t^*) + \frac{1}{2} (x_t - x_t^*)^T \mathbb{H}_g (x_t - x_t^*) + \frac{1}{2} (u_t - u_t^*)^T \mathbb{H}_g (u_t - u_t^*)
 $$
 
-从而我们将问题近似化为了以 $(x-x*, u-u*)$ 为中心的，线性时变的LQR问题。
+其中 $\mathbb{H}_g$ 是 $g$ 的 [Hessian matrix](https://en.wikipedia.org/wiki/Hessian_matrix)。 
 
-我们可以用LQR的方法求解此问题，得到初始轨迹附近的最优轨迹，然后重复此过程直到收敛。
+这样我们得到了一个不太完美的二次型的代价函数：
+
+$$
+g(z_t, v_t) = c + p_t z_t + q_t v_t + z_t^T Q_t z_t + v_t^T R_t v_t
+$$
+
+我们可以使用代换的技巧将一次项消去： $z_t' = \begin{bmatrix} z_t \\ 1 \end{bmatrix}$， $Q_t' = \begin{bmatrix} Q_t & \frac{p_t}{2} \\ \frac{p_t}{2}  & \frac{c}{2} \end{bmatrix}$， 还可以直接忽略与变量无关的常数项，抑或用推导LQR的步骤去推导带一次项的问题的解。
+
+要注意的是通过这些近似，我们得到了一个在初始轨迹附近的LQR问题，对它求解得到的很可能并非全局最优解。我们可以重复这一过程，再去求当前最优轨迹附近，原问题的LQR近似，由此往复直到收敛。这种方法被称为iterative LQR或iLQR， 是用于解决非线性动力学模型、非二次型代价函数的，比较一般的运动规划问题的好方法。
 
 Reference: [Pieter's slides](https://people.eecs.berkeley.edu/~pabbeel/cs287-fa12/slides/LQR.pdf)
