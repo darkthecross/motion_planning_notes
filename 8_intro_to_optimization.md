@@ -48,7 +48,7 @@ $$
 
 以下是对于一维函数和二维函数，梯度下降法的图示：
 
-<img src="resources_9/gradient_desc_2.png" width="600"/>
+<img src="resources_8/gradient_desc_2.png" width="600"/>
 
 我们来看一个实际的一维函数的例子：
 
@@ -84,7 +84,7 @@ $$
 
 这个函数的图像如下所示：
 
-<img src="resources_9/xsinx.png" width="600"/>
+<img src="resources_8/xsinx.png" width="600"/>
 
 同样选取步长 $\tau=0.3$ 当我们取初始值 $x_0 = 1.0 $ 时：
 
@@ -135,7 +135,7 @@ $$
 
 步长的选择对于优化算法的性能非常重要，过大或过小的步长都会导致收敛结果不尽如人意：
 
-<img src="resources_9/gd_step_size.png" width="600"/>
+<img src="resources_8/gd_step_size.png" width="600"/>
 
 一个很直观的想法是，除了使用固定的常数作为步长，我们还可以在迭代的过程中逐渐缩小步长：
 
@@ -196,7 +196,7 @@ $$
 
 一般认为牛顿法收敛速度优于梯度下降：
 
-<img src="resources_9/newton.png" width="600"/>
+<img src="resources_8/newton.png" width="600"/>
 
 我们来试着用牛顿法解同一个优化问题：
 
@@ -214,7 +214,7 @@ $$
 
 出问题了。这时候我们并没能收敛到一个极小值点，反而收敛到了一个极大值点：
 
-<img src="resources_9/xsinx_max.png" width="600"/>
+<img src="resources_8/xsinx_max.png" width="600"/>
 
 我们来尝试另一个初始化： $x_0 = 4.0$：
 
