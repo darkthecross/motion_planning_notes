@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Canvas Template</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="500" height="500"></canvas>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+
+        function polygon() {
+            const poly = [];
+            poly.push({x:57, y:88});
+            poly.push({x:224, y:96});
+            poly.push({x:403, y:312});
+            poly.push({x:302, y:416});
+            poly.push({x:28, y:251});
+            return poly;
+        }
+
+        function draw_poly(polygon) {
+            // Set point style
+            ctx.fillStyle = "blue";
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+
+            // Draw each point
+            polygon.forEach((point, index) => {
+                // Draw circle for point
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
+                ctx.fill();
+                // // Draw label for point
+                // ctx.fillText(index, point.x + 10, point.y + 5);
+            });
+
+            // Draw lines connecting points
+            ctx.beginPath();
+            ctx.moveTo(polygon[0].x, polygon[0].y);
+            polygon.slice(1).forEach((point) => {
+                ctx.lineTo(point.x, point.y);
+            });
+            ctx.lineTo(polygon[0].x, polygon[0].y);
+            ctx.stroke();
+        }
+
+        function calc_cost(pt, polygon) {
+            // Coord is not right handed, get max value here.
+            var d_max = -1000000.0;
+            for(var i = 0; i < polygon.length; ++i) {
+                var v_1 = polygon[i];
+                var v_2 = polygon[i];
+                if(i == polygon.length - 1) {
+                    v_2 = polygon[0];
+                } else {
+                    v_2 = polygon[i+1];
+                }
+                var e_vec = {x:v_2.x-v_1.x, y:v_2.y-v_1.y};
+                var s_vec = {x:pt.x-v_1.x, y:pt.y-v_1.y};
+                var l = Math.sqrt(e_vec.x * e_vec.x + e_vec.y * e_vec.y);
+                var c_prod = s_vec.x * e_vec.y - s_vec.y * e_vec.x;
+                var d = c_prod / l;
+                d_max = Math.max(d_max, d);
+            }
+
+            var c = 1 / (1 + Math.exp(0.05 * d_max));
+            return c;
+        }
+
+        function calc_heatmap(polygon) {
+            var pts = [];
+            var max_cost = 0.0;
+            var min_cost = 100000.0;
+            for (let x = 1; x <= 499; x++) {
+                for (let y = 1; y <= 499; y++) {
+                    var c = calc_cost({ x: x, y: y }, polygon);
+                    var pt = { x: x, y: y, c: c };
+                    pts.push(pt);
+                    max_cost = Math.max(max_cost, c);
+                    min_cost = Math.min(min_cost, c);
+                }
+            }
+            // Need to normalize heatmap to 0.0-1.0.
+            for (var i = 0; i < pts.length; ++i) {
+                pts[i].c = (pts[i].c - min_cost) / (max_cost - min_cost);
+            }
+            return pts;
+        }
+
+        function draw_heatmap(heatmap) {
+            // Define heatmap color gradient
+            const colorScale = d3.interpolate("#00f", "#f00");
+
+            // Draw each heatmap value
+            heatmap.forEach((value) => {
+                // Calculate color based on heatmap value
+                const color = colorScale(value.c);
+
+                // Set fill style to color
+                ctx.fillStyle = color;
+
+                // Draw rectangle for heatmap value
+                ctx.fillRect(value.x, value.y, 1, 1);
+            });
+        }
+
+        var poly = polygon();
+
+        // s = {x:59, y:90};
+        // console.log(calc_cost(s, poly));
+
+        htmp = calc_heatmap(poly);
+        draw_heatmap(htmp);
+
+        draw_poly(poly);
+
+    </script>
+</body>
+
+</html>

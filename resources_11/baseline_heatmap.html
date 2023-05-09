@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Canvas Template</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="500" height="500"></canvas>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+
+        function baseline() {
+            const numStates = 30;
+            const trajectory = [];
+
+            // Set initial state
+            let x = 250;
+            let y = 450;
+            let theta = -Math.PI / 2;
+
+            // Generate trajectory
+            for (let i = 0; i < numStates; i++) {
+                // Calculate new state
+                const dx = 13 * Math.cos(theta);
+                const dy = 13 * Math.sin(theta);
+                // const dtheta = Math.random() * 0.2 - 0.1;
+                const dtheta = Math.random() * 0.8 - 0.4;
+                x += dx;
+                y += dy;
+                theta += dtheta;
+
+                // Add state to trajectory
+                trajectory.push({ x, y, theta });
+            }
+            return trajectory;
+        }
+
+        function draw_baseline(baseline) {
+            // Set point style
+            ctx.fillStyle = "blue";
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+
+            // Draw each point
+            baseline.forEach((point, index) => {
+                // Draw circle for point
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
+                ctx.fill();
+                // // Draw label for point
+                // ctx.fillText(index, point.x + 10, point.y + 5);
+            });
+
+            // Draw lines connecting points
+            ctx.beginPath();
+            ctx.moveTo(baseline[0].x, baseline[0].y);
+            baseline.slice(1).forEach((point) => {
+                ctx.lineTo(point.x, point.y);
+            });
+            ctx.stroke();
+        }
+
+        function calc_cost(pt, baseline) {
+            var raw_cost = []
+            var weights = []
+            baseline.forEach((lwp) => {
+                var proj = (pt.x - lwp.x) * Math.cos(lwp.theta) + (pt.y - lwp.y) * Math.sin(lwp.theta);
+                var d_2 = (pt.x - lwp.x) * (pt.x - lwp.x) + (pt.y - lwp.y) * (pt.y - lwp.y);
+                var cost = d_2 - proj * proj;
+                raw_cost.push(cost);
+
+                // weights.push(Math.exp(-Math.sqrt(d_2)));
+                weights.push(1 / (d_2+0.01));
+            });
+            // Normalize weights.
+            var weights_sm = 0.0;
+            weights.forEach((w) => {
+                weights_sm += w;
+            });
+            var total_cost = 0.0;
+            for (var i = 0; i < weights.length; ++i) {
+                weights[i] /= weights_sm;
+                raw_cost[i] *= weights[i];
+                total_cost += raw_cost[i];
+            }
+            return total_cost;
+        }
+
+        function calc_heatmap(baseline) {
+            var pts = [];
+            var max_cost = 0.0;
+            for (let x = 1; x <= 499; x++) {
+                for (let y = 1; y <= 499; y++) {
+                    var min_dist = 100000.0;
+                    baseline.forEach((lwp) => {
+                        var d = Math.sqrt((x - lwp.x) * (x - lwp.x) + (y - lwp.y) * (y - lwp.y));
+                        min_dist = Math.min(min_dist, d);
+                    });
+                    if (min_dist < 50.0) {
+                        var c = calc_cost({ x: x, y: y }, baseline);
+                        var pt = { x: x, y: y, c: c };
+                        pts.push(pt);
+                        max_cost = Math.max(max_cost, c);
+                    }
+                }
+            }
+            // Need to normalize heatmap.
+            for (var i = 0; i < pts.length; ++i) {
+                pts[i].c /= max_cost;
+            }
+            return pts;
+        }
+
+        function draw_heatmap(heatmap) {
+            // Define heatmap color gradient
+            const colorScale = d3.interpolate("#00f", "#f00");
+
+            // Draw each heatmap value
+            heatmap.forEach((value) => {
+                if (value.c < 0 || value.c > 1) {
+                    console.log(value);
+                }
+                // Calculate color based on heatmap value
+                const color = colorScale(value.c);
+
+                // Set fill style to color
+                ctx.fillStyle = color;
+
+                // Draw rectangle for heatmap value
+                ctx.fillRect(value.x, value.y, 1, 1);
+            });
+        }
+
+        var bl = baseline();
+
+        console.log(bl);
+
+        lst_wp = bl[29]
+
+        // var lst_wp_c = calc_cost(lst_wp, bl);
+        // console.log(lst_wp_c);
+
+        pts = calc_heatmap(bl);
+
+        draw_heatmap(pts);
+
+        draw_baseline(bl);
+
+    </script>
+</body>
+
+</html>

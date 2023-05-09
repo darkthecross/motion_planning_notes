@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Canvas Template</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="500" height="500"></canvas>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+
+        function calc_cost(pt, circle) {
+            var d = Math.sqrt((pt.x - circle.x) * (pt.x - circle.x) + (pt.y - circle.y) * (pt.y - circle.y)) - circle.r;
+            var c = 1 - 1 / (1 + Math.exp(-0.1 * d));
+            return c;
+        }
+
+        function calc_heatmap(circle) {
+            var pts = [];
+            var max_cost = 0.0;
+            for (let x = 1; x <= 499; x++) {
+                for (let y = 1; y <= 499; y++) {
+                    var c = calc_cost({ x: x, y: y }, circle);
+                    var pt = { x: x, y: y, c: c };
+                    pts.push(pt);
+                    max_cost = Math.max(max_cost, c);
+                }
+            }
+            // Need to normalize heatmap.
+            for (var i = 0; i < pts.length; ++i) {
+                pts[i].c /= max_cost;
+            }
+            return pts;
+        }
+
+        function draw_heatmap(heatmap) {
+            // Define heatmap color gradient
+            const colorScale = d3.interpolate("#00f", "#f00");
+
+            // Draw each heatmap value
+            heatmap.forEach((value) => {
+                if (value.c < 0 || value.c > 1) {
+                    console.log(value);
+                }
+                // Calculate color based on heatmap value
+                const color = colorScale(value.c);
+
+                // Set fill style to color
+                ctx.fillStyle = color;
+
+                // Draw rectangle for heatmap value
+                ctx.fillRect(value.x, value.y, 1, 1);
+            });
+        }
+
+        var circle = { x: 250, y: 250, r: 100 };
+
+        htmp = calc_heatmap(circle);
+        draw_heatmap(htmp);
+
+        ctx.arc(circle.x, circle.y, circle.r, 0, Math.PI * 2);
+        ctx.stroke();
+
+    </script>
+</body>
+
+</html>
