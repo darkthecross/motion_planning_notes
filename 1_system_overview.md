@@ -82,7 +82,7 @@
 
 * BFS, DFS, Dijkstra, A*。这些都是非常经典的图搜索算法。
 
-* [Beam search](https://en.wikipedia.org/wiki/Beam_search#:~:text=In%20computer%20science%2C%20beam%20search,that%20reduces%20its%20memory%20requirements.)。严格来说这是一种通过价值函数，影响建图的算法。
+* [Beam search](https://en.wikipedia.org/wiki/Beam_search#:~:text=In%20computer%20science%2C%20beam%20search,that%20reduces%20its%20memory%20requirements.)。严格来说这是一种通过价值函数，提高建图（或搜索）效率的算法。
 
 * [Focal search](https://www.ijcai.org/proceedings/2018/0199.pdf)。这是一种基于A*的搜索算法，适用于解决复杂的搜索问题。
 
@@ -138,4 +138,4 @@
 
 ## 小结
 
-机器人的运动规划是一个涉猎非常广的学科，在学术界，搜索、优化、SLAM、多传感器融合和机器视觉都是十分重要的领域。工业界来说，最重要的是解决问题和创造价值，不管黑猫白猫能抓耗子就是好猫，所以系统架构是一个工程问题，只要能达到目的，可以灵活安排，按需设计。
+机器人的运动规划是一个涉猎非常广的学科，在学术界，运动规划可以与SLAM、多传感器融合和机器视觉等领域进行有机的结合；工业界来说，最重要的是解决问题和创造价值，不管黑猫白猫能抓耗子就是好猫，所以业界的系统架构是一个工程问题，只要能达到目的，可以灵活安排不同的模块，按需设计。
