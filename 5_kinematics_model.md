@@ -96,7 +96,7 @@ $$
 
 <img src="resources_2/sweeping.jpg" width="300" height="300"/><img src="resources_2/balance_car.jpg" width="300" height="300"/>
 
-在此讨论的模型假定移动机器人有其他万向轮作为从动轮，起到支撑的作用，所以只需讨论二维空间的平面移动；而常见的平衡车模型还需要采用类似于倒立摆的方式处理平衡问题，在此暂不讨论。
+在此讨论的模型假定移动机器人有其他万向轮作为从动轮，起到支撑的作用，所以只需讨论二维空间的平面移动，相对比较简便；而常见的平衡车模型还需要采用类似于倒立摆的方式处理平衡问题，在此暂不讨论。
 
 ![differential_model](resources_2/differential_model.png)
 

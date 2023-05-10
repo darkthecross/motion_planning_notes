@@ -84,4 +84,4 @@ Reference: [Wikipedia](https://en.wikipedia.org/wiki/Rapidly-exploring_random_tr
 
 Reference: [Matthew's paper](https://www.ri.cmu.edu/pub_files/2011/5/20100914_icra2011-mcnaughton.pdf)
 
-这是一种相对最适合移动机器人的建图方法。
+这是一种相对最适合移动机器人的建图方法，每一个基础运东单元都有对应的、可行的控制，可以让移动机器人沿着该轨迹移动。

@@ -56,11 +56,13 @@ $$
 
 那对于既有旋转又有平移的情况该如何处理呢？要注意的是先平移 $(x_d, y_d)$ 再绕原点旋转和先绕原点旋转再平移 $(x_d, y_d)$ ，我们会得到不同的变换结果。为了方便起见，约定俗成地，我们一般先绕原点进行旋转变换，再进行平移变换。
 
-对于一个任意点 $(x, y)$， 我们将其写作齐次坐标的形式： $[x y 1]^T$ ，这样的话我们便可以用矩阵乘法来表示平移变换和旋转变换：
+点是表达形状的基本元素，许多几何形状都可以通过分解成若干个点来表达，所以我们先来看一看如何计算一个点变换之后的结果。对于一个任意点 $(x, y)$， 我们将其写作齐次坐标的形式： $[x y 1]^T$ ，这样的话我们便可以用矩阵乘法来表示平移变换和旋转变换。先来看平移变换，对于沿 $x$ 轴正方向移动 $x_d$ ，沿 $y$ 轴正方向移动 $y_d$ 的变换，我们可以进行如下的矩阵乘法：
 
 $$
  \begin{bmatrix} x + x_d \\ y + y_d \\ 1 \end{bmatrix} = \begin{bmatrix} 1 & 0 & x_d \\ 0 & 1 & y_d \\ 0 & 0 & 1\end{bmatrix}  \begin{bmatrix} x \\ y \\ 1 \end{bmatrix}
 $$
+
+再来看旋转变换。纯粹的旋转变换不应包括平移，而是绕原点逆时针旋转某个角度 $\theta$。这一旋转变换可以表达如下：
 
 $$
  \begin{bmatrix} x \cos \theta - y \sin \theta \\ x \sin \theta + y \cos \theta \\ 1 \end{bmatrix} = \begin{bmatrix} \cos \theta & -\sin \theta & 0 \\ \sin \theta & \cos \theta & 0 \\ 0 & 0 & 1 \end{bmatrix}  \begin{bmatrix} x \\ y \\ 1 \end{bmatrix}
@@ -80,7 +82,9 @@ $$
 \begin{bmatrix} 1 & 0 & x_d \\ 0 & 1 & y_d \\ 0 & 0 & 1\end{bmatrix} \begin{bmatrix} \cos \theta & -\sin \theta & 0 \\ \sin \theta & \cos \theta & 0 \\ 0 & 0 & 1 \end{bmatrix} = \begin{bmatrix} \cos \theta & -\sin \theta & x_d \\ \sin \theta & \cos \theta & y_d \\ 0 & 0 & 1 \end{bmatrix}
 $$
 
-而当顺序反过来：
+也就是，这一表达先旋转再平移的变换的矩阵，是平移矩阵与旋转矩阵的乘积。
+
+矩阵乘法不具有交换律，如果我们把顺序反过来：
 
 $$
 \begin{bmatrix} \cos \theta & -\sin \theta & 0 \\ \sin \theta & \cos \theta & 0 \\ 0 & 0 & 1 \end{bmatrix} \begin{bmatrix} 1 & 0 & x_d \\ 0 & 1 & y_d \\ 0 & 0 & 1\end{bmatrix} = \begin{bmatrix} \cos \theta & -\sin \theta & x_d \cos \theta - y_d \sin \theta \\ \sin \theta & \cos \theta & x_d \sin \theta + y_d \sin \theta \\ 0 & 0 & 1 \end{bmatrix}
