@@ -4,7 +4,7 @@
 
 一个自动驾驶的软件系统，或者更宽泛来说，移动机器人的软件系统，有以下常见模块：
 
-![mobile_robot_arch](resources_1/mobile_robot_arch.svg)
+![mobile_robot_arch](system_overview/mobile_robot_arch.svg)
 
 ## 感知、定位
 不同场景下往往使用不同的感知定位系统。自动驾驶常用激光雷达、毫米波雷达、各种摄像头、GPS与GNSS等硬件，而室内移动机器人常用激光雷达、深度摄像头（TOF，结构光等）、多目成像方案等。

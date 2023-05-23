@@ -1,11 +1,17 @@
-# 2_运动规划基础知识
+# 1_运动规划基础知识
 
-本章节介绍运动规划的基本概念和常见元素。
+本章节介绍运动规划的基本概念、运动规划可以解决的问题，并由此定义运动规划问题的常见元素、数学表达。
 
 
 ## 什么是规划
 
 规划是指在确定目标和约束条件的基础上，制定一系列有序的行动方案和措施来达成目标的过程。在不同的领域，规划都扮演着重要的角色：旅游需要规划、理财需要规划，连健康的管理也需要规划饮食和运动等。
+
+通常而言，一个规划问题，都有以下几个通用的元素：
+
+* 初始状态，或当前状态。这是规划问题的起点，我们从这里出发。对于旅游问题，即是当前所处的城市；对于理财问题，即是现有资产配置。
+* 目标状态。
+* 行动。
 
 在机器人学中，一个基本的需求是设计一套算法，将高阶、抽象的任务转换成底层的机械控制。例如我们想要用一台六轴工业机器人将一个零件从一个位置移动到另一个位置，那么每个时刻机器人的每一个关节该如何转动；或者一辆自动驾驶汽车将乘客从A点运送到B点，该选择怎样的路线、又该进行怎样的油门和方向盘控制等。
 
@@ -19,7 +25,7 @@
 
 例如鲁班锁，或者Alpha Puzzle：
 
-<img src="resources_2/lubansuo.jpg" width="300" height="200"/><img src="resources_2/puzzle.png" width="300" height="200"/>
+<img src="intro_to_planning/lubansuo.jpg" width="300" height="200"/><img src="intro_to_planning/puzzle.png" width="300" height="200"/>
 
 我们可以用CAD三维建模来表达每个部分的几何形状，将各个部件纠缠在一起的状态视为初始状态，再设计一个各个部件分开的状态作为目标状态。如果我们能够通过运动规划的方法寻找一个从初始状态到目标状态的、没有碰撞（三维世界不许穿模！）的轨迹便可以解决对应的益智拼图。
 
@@ -27,7 +33,7 @@
 
 大货车倒车入库是一个比一般人设想更复杂的问题，因为货车车厢没有主动动力，其朝向的改变完全由车头控制。倒车入库时，需要先调整车头使得车厢的后轮对准车位；然后反向转动方向盘，使得车头的后轮也对准车位；最后车头回正倒车，完成整个入库的过程。
 
-<img src="resources_2/truck_reverse.jpg" width="300" height="200"/>
+<img src="intro_to_planning/truck_reverse.jpg" width="300" height="200"/>
 
 Reference: [Wikihow](https://www.wikihow.com/Park-a-Truck-or-Large-Vehicle)
 
@@ -50,7 +56,7 @@ Reference: [Wikihow](https://www.wikihow.com/Park-a-Truck-or-Large-Vehicle)
 在钢琴的运动规划问题中，我们需要找到一条从起点到终点的路径，也就是钢琴的轨迹。
 
 
-<img src="resources_2/piano_mover.png" width="600"/>
+<img src="intro_to_planning/piano_mover.png" width="600"/>
 
 Image credit: [Research Gate](https://www.researchgate.net/figure/The-piano-movers-problem-EET_fig45_273396838)
 
